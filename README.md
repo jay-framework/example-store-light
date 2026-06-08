@@ -2,6 +2,14 @@
 
 A minimal e-commerce storefront built with [Jay Framework](https://github.com/nicenemo/jay) and Wix Stores. Features product listing, product detail pages with variants, and a shopping cart.
 
+**Live demo:** [jay-store-736aca87-yoav68.wix-site-host.com](https://jay-store-736aca87-yoav68.wix-site-host.com)
+
+<p>
+  <img src="docs/screenshot-collection.png" alt="Product collection page" width="400">
+  <img src="docs/screenshot-product-detail.png" alt="Product detail page" width="400">
+  <img src="docs/screenshot-product-page.png" alt="Product page with options" width="400">
+</p>
+
 ## Prerequisites
 
 - Node.js >= 20
