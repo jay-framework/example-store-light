@@ -29,7 +29,29 @@ Here's what each command does:
 
 3. **Generate an API key** — Go to **Wix Dashboard → Account Settings → API Keys**, create a new key, and paste it into `config/.wix.yaml` under `apiKeyStrategy.apiKey`.
 
-4. **Run `npm run setup` again** to validate that all credentials are configured correctly.
+4. **Install Wix Stores** — In the **Wix Business Manager → Apps → Manage Apps → App Market**, find **Wix Stores** and add it to the site.
+
+5. **Create the `jay-backend-files` collection** — In the **Wix Business Manager** of the same site (or the site referenced in `config/.wix.yaml`, if those are different), go to **CMS** and create a new collection named **`jay-backend-files`**. No specific schema is required. This collection stores pre-compiled page data for Wix BaaS deployment.
+
+6. **Run `npm run setup` again** to validate that all credentials are configured correctly.
+
+When everything is set up, the output should look like:
+
+```
+📦 wix-server-client
+   ✅ Services verified
+   Wix client connected (site: 04cf42a4...)
+
+📦 wix-deploy
+   ✅ Services verified
+   Deploy target: wix.config.json (appId: 574c2287...). Collection: jay-backend-files ✓
+
+📦 wix-stores
+   ✅ Services verified
+   Wix Stores configured (product URL: /products/{slug})
+
+Setup complete: 3 configured
+```
 
 ### Why two credential files?
 
@@ -40,15 +62,40 @@ Here's what each command does:
 
 Having two separate files allows deploying multiple versions of the business as different BaaS instances. By default, both point to the same site.
 
-## 2. Dev Server
+## 2. Generate Agent Kit
+
+```bash
+npm run agent-kit
+```
+
+Generates an `agent-kit/` directory with documentation and reference material for the AI agent. The kit is organized by role:
+
+```
+agent-kit/
+├── plugins-index.yaml              # Index of all installed plugins, their contracts, actions, services, and contexts
+├── designer/                       # Jay-HTML syntax, styling, components, and routing for visual design
+├── developer/                      # Page contracts, component data/state/refs, CLI commands, and configuration
+├── devops/                         # Production builds, serving modes, fetch handler, and cache invalidation
+├── plugin/                         # Plugin structure, actions, commands, services, webhooks, and validation
+├── materialized-contracts/
+│   └── wix-stores/
+│       └── product-page.jay-contract   # Fully resolved product page contract with all fields
+└── references/
+    └── wix-stores/
+        └── categories.yaml         # Store categories reference data
+```
+
+Each role directory includes an `INSTRUCTIONS.md` entry point for the AI agent.
+
+## 3. Dev Server
 
 ```bash
 npm run dev
 ```
 
-The dev server starts at `http://localhost:5173` with hot reload.
+The dev server starts at `http://localhost:3000` with hot reload. If port 3000 is taken, it will pick another port and print the URL in the output.
 
-## 3. AI Designer (Aiditor)
+## 4. AI Designer (Aiditor)
 
 The project includes the Jay AI designer for editing pages visually with AI assistance.
 
@@ -56,33 +103,26 @@ The project includes the Jay AI designer for editing pages visually with AI assi
 npm run dev
 ```
 
-Then open `http://localhost:5173/aiditor` in your browser.
+Then open `http://localhost:3000/aiditor` in your browser.
 
-The aiditor reads the project's contracts and page templates, letting you modify layouts and add components using natural language.
+![Aiditor screenshot](docs/aiditor-screenshot.png)
 
-## 4. Deploy to Wix BaaS
+1. **Navigate between pages** using the site itself within the preview, or using the top routes selector dropdown.
+2. **Annotate visually** using the point, area, or arrow tools to give visual instructions to the agent. You can also paste images into the annotation instructions.
+3. **Use the bottom Agent Output panel** to see progress and give textual instructions via Claude Code.
 
-### First-time setup
+## 5. Deploy to Wix BaaS
 
-```bash
-# Authenticate with Wix CLI
-wix login
-
-# Create a data collection named "jay-backend-files" in the Wix dashboard
-# Required fields: path (text), content (text), fileType (text),
-#                  sizeBytes (number), category (text), version (text)
-```
-
-### Deploy
+This project includes the `wix-deploy` package for deploying to Wix BaaS. If you don't need Wix deployment, remove `wix-deploy` from your dependencies.
 
 ```bash
 npm run build:production
 npm run deploy
 ```
 
-This bundles a 2.5 MB `entry.mjs`, uploads page data to a Wix data collection, and deploys the server + frontend to Wix BaaS + CDN.
+This bundles a 2.5 MB `entry.mjs`, uploads page data to the `jay-backend-files` collection, and deploys the server + frontend to Wix BaaS + CDN.
 
-## 5. Deploy to Self-Hosted Server
+## 6. Deploy to Self-Hosted Server
 
 ```bash
 # Build
