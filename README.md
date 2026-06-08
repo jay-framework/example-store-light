@@ -1,6 +1,6 @@
 # Jay Wix Store — Light
 
-A minimal e-commerce storefront built with [Jay Framework](https://github.com/nicenemo/jay) and Wix Stores. Features product listing, product detail pages with variants, and a shopping cart.
+A minimal e-commerce storefront built with [Jay Framework](https://github.com/jay-framework/jay) and Wix Stores. Features product listing, product detail pages with variants, and a shopping cart.
 
 **Live demo:** [jay-store-736aca87-yoav68.wix-site-host.com](https://jay-store-736aca87-yoav68.wix-site-host.com)
 
