@@ -1,6 +1,6 @@
 {
   "name": "jay-store-light",
-  "version": "0.18.0",
+  "version": "0.0.1",
   "type": "module",
   "private": true,
   "scripts": {
