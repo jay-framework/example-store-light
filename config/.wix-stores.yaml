@@ -1,0 +1,18 @@
+# Wix Stores Configuration
+#
+# URL templates for link generation.
+# Placeholders: {slug} (product), {category} (sub-category), {prefix} (root category)
+#
+# urls:
+#   product: "/products/{slug}"                              # simple (default)
+#   product: "/products/{category}/{slug}"                   # with categories
+#   product: "/products/{prefix}/{category}/{slug}"          # with prefixes + categories
+#   category: "/products/{prefix}/{category}"                # category deep-link pages
+#
+# Fallback category for pages without category context:
+# defaultCategory: "all-products"
+#
+# To see available categories: jay-stack setup wix-stores (generates category tree reference)
+
+urls:
+  product: "/products/{slug}"

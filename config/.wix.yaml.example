@@ -1,0 +1,9 @@
+# Wix SDK credentials — copy to .wix.yaml and fill in values
+# IMPORTANT: Do not commit .wix.yaml — it contains secrets
+
+apiKeyStrategy:
+  apiKey: "<your-api-key>"
+  siteId: "<your-site-id>"
+
+oauthStrategy:
+  clientId: "<your-client-id>"

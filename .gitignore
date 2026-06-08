@@ -1,0 +1,13 @@
+node_modules/
+build/
+dist/
+agent-kit/
+.jay/
+.idea/
+.wix/
+serve.mjs
+*.d.ts
+
+# Credentials — never commit real values
+config/.wix.yaml
+wix.config.json

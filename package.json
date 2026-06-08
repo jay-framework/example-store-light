@@ -1,0 +1,37 @@
+{
+  "name": "jay-wix-store-light",
+  "version": "0.18.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "setup": "jay-stack-cli setup",
+    "dev": "jay-stack-cli dev",
+    "agent-kit": "jay-stack-cli agent-kit",
+    "validate": "jay-stack-cli validate",
+    "clean": "rimraf dist && rimraf build && rimraf -g 'src/**/*.d.ts'",
+    "definitions": "jay-cli definitions src",
+    "build": "npm run agent-kit && npm run definitions",
+    "build:production": "npm run build && jay-stack-cli build",
+    "build:check-types": "tsc",
+    "serve": "jay-stack-cli serve",
+    "deploy": "jay-stack-cli run wix-deploy/deploy --exclude-plugins aiditor",
+    "deploy:serve": "node serve.mjs",
+    "test": ":"
+  },
+  "dependencies": {
+    "@jay-framework/fullstack-component": "^0.18.4",
+    "@jay-framework/jay-stack-cli": "^0.18.4",
+    "@jay-framework/wix-cart": "^0.18.4",
+    "@jay-framework/wix-deploy": "^0.18.4",
+    "@jay-framework/wix-server-client": "^0.18.4",
+    "@jay-framework/wix-stores": "^0.18.4"
+  },
+  "devDependencies": {
+    "@jay-framework/aiditor": "^0.18.4",
+    "@jay-framework/jay-cli": "^0.",
+    "@types/node": "^22.10.0",
+    "rimraf": "^6.0.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.1"
+  }
+}
