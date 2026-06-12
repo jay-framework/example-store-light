@@ -401,7 +401,7 @@
 
       <!-- Hero - First Image Full Viewport -->
       <section class="hero-image-section">
-        <img src="{productPage.mediaGallery.selectedMedia.url}" alt="{productPage.productName}" />
+        <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920,h_1080/file.webp" alt="{productPage.productName}" loading="eager" width="1920" height="1080" />
         
         <div class="hero-overlay">
           <div class="hero-badges">
@@ -445,19 +445,21 @@
           <div class="option-block" forEach="productPage.options" trackBy="_id">
             <div class="option-title">{name}</div>
             
-            <select class="select" 
+            <select class="select"
                     if="optionRenderType == TEXT_CHOICES"
-                    ref="productPage.options.textChoice">
+                    ref="productPage.options.textChoice"
+                    aria-label="{name}">
               <option forEach="choices" trackBy="choiceId" value="{choiceId}">{name}</option>
             </select>
 
             <div class="option-choices-grid" if="optionRenderType == COLOR_SWATCH_CHOICES">
               <button class="choice-btn color-swatch {isSelected ? selected} {!inStock ? out-of-stock}"
                       style="background-color: {colorCode}"
-                      forEach="choices" 
+                      forEach="choices"
                       trackBy="choiceId"
                       ref="productPage.options.choices.choiceButton"
-                      title="{name}">
+                      title="{name}"
+                      aria-label="{name}">
               </button>
             </div>
           </div>
@@ -468,18 +470,20 @@
           <div class="option-block" forEach="productPage.modifiers" trackBy="_id">
             <div class="option-title">{name}</div>
             
-            <select class="select" 
+            <select class="select"
                     if="modifierType == TEXT_CHOICES"
-                    ref="productPage.modifiers.textModifier">
+                    ref="productPage.modifiers.textModifier"
+                    aria-label="{name}">
               <option forEach="choices" trackBy="choiceId" value="{choiceId}">{name}</option>
             </select>
 
-            <input class="input" 
-                   type="text" 
+            <input class="input"
+                   type="text"
                    if="modifierType == FREE_TEXT"
                    ref="productPage.modifiers.textInput"
                    placeholder="Custom engraving text"
-                   maxlength="{textInputLength}" />
+                   maxlength="{textInputLength}"
+                   aria-label="{name}" />
           </div>
         </div>
 
@@ -488,11 +492,12 @@
           <div class="option-title">Quantity</div>
           <div class="quantity-controls">
             <button class="quantity-btn" ref="productPage.quantity.decrementButton">−</button>
-            <input class="quantity-input" 
-                   type="number" 
-                   value="{productPage.quantity.quantity}" 
+            <input class="quantity-input"
+                   type="number"
+                   value="{productPage.quantity.quantity}"
                    ref="productPage.quantity.quantity"
-                   min="1" />
+                   min="1"
+                   aria-label="Quantity" />
             <button class="quantity-btn" ref="productPage.quantity.incrementButton">+</button>
           </div>
         </div>
@@ -510,7 +515,7 @@
                forEach="productPage.mediaGallery.availableMedia" 
                trackBy="mediaId"
                ref="productPage.mediaGallery.availableMedia.selected">
-            <img src="{media.url}" loading="lazy" />
+            <img src="{media.url}/v1/fill/w_1000,h_1000/file.webp" alt="Product image" loading="lazy" width="1000" height="1000" />
           </div>
         </div>
       </section>

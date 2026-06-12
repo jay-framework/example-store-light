@@ -393,12 +393,13 @@
         
         <div class="hero-search">
           <div class="search-box">
-            <input 
-              class="input input-lg" 
-              type="text" 
-              placeholder="Search our collection..." 
+            <input
+              class="input input-lg"
+              type="text"
+              placeholder="Search our collection..."
               value="{productSearch.searchExpression}"
               ref="productSearch.searchExpression"
+              aria-label="Search products"
             />
             <button class="btn btn-ghost" ref="productSearch.clearSearchButton" title="Clear">
               ✕
@@ -433,20 +434,22 @@
           <div class="filter-group-inline">
             <span class="label">Price</span>
             <div class="filter-price-range">
-              <input 
-                class="input" 
-                type="number" 
-                placeholder="Min" 
+              <input
+                class="input"
+                type="number"
+                placeholder="Min"
                 value="{productSearch.filters.priceRange.minPrice}"
                 ref="productSearch.filters.priceRange.minPrice"
+                aria-label="Minimum price"
               />
               <span>–</span>
-              <input 
-                class="input" 
-                type="number" 
-                placeholder="Max" 
+              <input
+                class="input"
+                type="number"
+                placeholder="Max"
                 value="{productSearch.filters.priceRange.maxPrice}"
                 ref="productSearch.filters.priceRange.maxPrice"
+                aria-label="Maximum price"
               />
             </div>
           </div>
@@ -494,7 +497,7 @@
         <p class="results-count">
           Showing <strong>{productSearch.resultCount}</strong> pieces
         </p>
-        <select class="select" ref="productSearch.sortBy.sortDropdown">
+        <select class="select" ref="productSearch.sortBy.sortDropdown" aria-label="Sort products">
           <option value="relevance">Featured</option>
           <option value="newest">New Arrivals</option>
           <option value="priceAsc">Price: Low to High</option>
@@ -508,7 +511,7 @@
       <div class="empty-container" if="!productSearch.hasResults">
         <div class="empty-state">
           <div class="empty-state-icon">✨</div>
-          <h3 class="empty-state-title">No pieces found</h3>
+          <h2 class="empty-state-title">No pieces found</h2>
           <p class="empty-state-message">{productSearch.emptyStateMessage}</p>
         </div>
       </div>
@@ -518,15 +521,17 @@
         <div class="products-grid-large">
           <article class="product-card {isAddingToCart ? is-adding}" forEach="productSearch.searchResults" trackBy="_id">
             <a href="{productUrl}" class="product-card-image">
-              <img 
-                src="{thumbnail.url}" 
+              <img
+                src="{thumbnail.url}/v1/fill/w_600,h_600/file.webp"
                 alt="{thumbnail.altText}"
                 loading="lazy"
+                width="600"
+                height="600"
               />
               
               <!-- Hover Overlay with Name & Price -->
               <div class="product-image-overlay">
-                <h4 class="overlay-name">{name}</h4>
+                <h3 class="overlay-name">{name}</h3>
                 <span class="overlay-price">{price}</span>
               </div>
               
@@ -541,9 +546,9 @@
             </a>
             <div class="product-card-content">
               <p class="product-card-brand" if="brand.name">{brand.name}</p>
-              <h3 class="product-card-name">
+              <h2 class="product-card-name">
                 <a href="{productUrl}" ref="productSearch.searchResults.productLink">{name}</a>
-              </h3>
+              </h2>
               <div class="product-card-price">
                 <span class="current-price">{price}</span>
                 <span class="original-price" if="hasDiscount">

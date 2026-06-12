@@ -520,9 +520,11 @@
                     
                     <a href="{productUrl}" class="item-image-link" ref="cartPage.lineItems.productLink">
                         <img class="item-image"
-                             src="{image.url}"
+                             src="{image.url}/v1/fill/w_200,h_240/file.webp"
                              alt="{image.altText}"
-                             loading="lazy">
+                             loading="lazy"
+                             width="200"
+                             height="240">
                     </a>
 
                     <div class="item-info">
@@ -550,7 +552,8 @@
                                        ref="cartPage.lineItems.quantity"
                                        value="{quantity}"
                                        min="1"
-                                       max="99">
+                                       max="99"
+                                       aria-label="Quantity">
                                 <button class="qty-btn" ref="cartPage.lineItems.incrementButton">+</button>
                             </div>
                             <button class="item-remove" ref="cartPage.lineItems.removeButton">
@@ -599,7 +602,8 @@
                                class="input"
                                ref="cartPage.coupon.code"
                                value="{cartPage.coupon.code}"
-                               placeholder="Promo code">
+                               placeholder="Promo code"
+                               aria-label="Promo code">
                         <button class="btn btn-ghost btn-sm" ref="cartPage.coupon.applyButton">
                             Apply
                         </button>
