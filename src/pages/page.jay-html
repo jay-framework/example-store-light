@@ -1,5 +1,8 @@
 <html>
   <head>
+    <title>Atelier — Curated Home & Living</title>
+    <meta name="description" content="Discover curated pieces crafted with intention. Quality home goods and lifestyle products.">
+    <link rel="canonical" href="/">
     <script type="application/jay-data">
       data:
     </script>
@@ -30,10 +33,10 @@
     </style>
   </head>
   <body>
-    <div class="hero">
+    <main class="hero">
       <h1>Welcome to the Store</h1>
       <p>Browse our curated collection of products</p>
       <a href="/products">Shop Now</a>
-    </div>
+    </main>
   </body>
 </html>

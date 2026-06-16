@@ -11,6 +11,8 @@
     <script type="application/jay-data">
       data:
     </script>
+    <meta name="description" content="Review your cart and proceed to checkout at Atelier.">
+    <link rel="canonical" href="/cart">
     <link rel="stylesheet" href="../../styles/atelier-theme.css">
     <style>
         /* =====================================================
@@ -468,7 +470,7 @@
     </style>
 </head>
 <body>
-    <div class="cart-view">
+    <main class="cart-view">
         <!-- Site Header -->
         <header class="site-header">
             <a href="/products" class="site-logo">Atelier<span>.</span></a>
@@ -524,7 +526,8 @@
                              alt="{image.altText}"
                              loading="lazy"
                              width="200"
-                             height="240">
+                             height="240"
+                             fetchpriority="high">
                     </a>
 
                     <div class="item-info">
@@ -617,6 +620,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>

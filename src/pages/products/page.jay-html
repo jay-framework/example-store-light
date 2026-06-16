@@ -10,6 +10,9 @@
             contract="cart-indicator"
             key="cartIndicator"
     ></script>
+    <title>Collection — Atelier</title>
+    <meta name="description" content="Browse our curated collection of quality home goods and lifestyle products.">
+    <link rel="canonical" href="/products">
     <script type="application/jay-data">
       data:
     </script>
@@ -364,7 +367,7 @@
     </style>
   </head>
   <body>
-    <div class="collection-page">
+    <main class="collection-page">
       <!-- Site Header -->
       <header class="site-header">
         <a href="/products" class="site-logo">Atelier<span>.</span></a>
@@ -527,6 +530,7 @@
                 loading="lazy"
                 width="600"
                 height="600"
+                fetchpriority="high"
               />
               
               <!-- Hover Overlay with Name & Price -->
@@ -631,6 +635,6 @@
           All pieces loaded
         </span>
       </div>
-    </div>
+    </main>
   </body>
 </html>

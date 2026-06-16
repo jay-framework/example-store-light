@@ -14,6 +14,9 @@
             plugin="@jay-framework/wix-stores"
             contract="related-products"
     ></script>
+    <title>{productPage.productName} — Atelier</title>
+    <meta name="description" content="Shop {productPage.productName} at Atelier. Quality pieces crafted with intention.">
+    <link rel="canonical" href="/products/{productPage.slug}">
     <script type="application/jay-data">
       data:
     </script>
@@ -457,7 +460,7 @@
     </style>
   </head>
   <body>
-    <div class="product-view">
+    <main class="product-view">
       <!-- Site Header -->
       <header class="site-header">
         <a href="/products" class="site-logo">Atelier<span>.</span></a>
@@ -483,7 +486,7 @@
       <section class="gallery-section">
         <div class="gallery-container">
           <div class="main-image-wrapper">
-            <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_900,h_675/file.webp" alt="{productPage.productName}" loading="eager" width="900" height="675" />
+            <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_900,h_675/file.webp" alt="{productPage.productName}" loading="eager" width="900" height="675" fetchpriority="high" />
           </div>
           <div class="thumbnails-row">
             <div class="thumb-item {selected == selected ? selected}"
@@ -694,6 +697,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>

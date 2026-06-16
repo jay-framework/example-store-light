@@ -13,6 +13,9 @@
       <script type="application/jay-params">
           slug: ceramic-flower-vase
       </script>
+    <title>Ceramic Flower Vase — Atelier</title>
+    <meta name="description" content="Explore our handcrafted ceramic flower vase, designed for beauty and everyday elegance.">
+    <link rel="canonical" href="/products/ceramic-flower-vase">
     <script type="application/jay-data">
       data:
     </script>
@@ -384,7 +387,7 @@
     </style>
   </head>
   <body>
-    <div class="vase-page">
+    <main class="vase-page">
       <!-- Site Header -->
       <header class="site-header">
         <a href="/products" class="site-logo">Atelier<span>.</span></a>
@@ -401,7 +404,7 @@
 
       <!-- Hero - First Image Full Viewport -->
       <section class="hero-image-section">
-        <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920,h_1080/file.webp" alt="{productPage.productName}" loading="eager" width="1920" height="1080" />
+        <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920,h_1080/file.webp" alt="{productPage.productName}" loading="eager" width="1920" height="1080" fetchpriority="high" />
         
         <div class="hero-overlay">
           <div class="hero-badges">
@@ -552,6 +555,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
