@@ -12,7 +12,6 @@
       data:
     </script>
     <meta name="description" content="Review your cart and proceed to checkout at Atelier.">
-    <link rel="canonical" href="/cart">
     <link rel="stylesheet" href="../../styles/atelier-theme.css">
     <style>
         /* =====================================================
