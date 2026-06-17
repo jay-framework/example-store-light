@@ -14,8 +14,6 @@
             plugin="@jay-framework/wix-stores"
             contract="related-products"
     ></script>
-    <title>{productPage.productName} — Atelier</title>
-    <meta name="description" content="Shop {productPage.productName} at Atelier. Quality pieces crafted with intention.">
     <link rel="canonical" href="/products/{productPage.slug}">
     <script type="application/jay-data">
       data:
