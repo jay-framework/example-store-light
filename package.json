@@ -19,19 +19,19 @@
     "test": ":"
   },
   "dependencies": {
-    "@jay-framework/fullstack-component": "^0.19.5",
-    "@jay-framework/jay-stack-cli": "^0.19.5",
-    "@jay-framework/wix-cart": "^0.19.5",
-    "@jay-framework/wix-deploy": "^0.19.5",
-    "@jay-framework/wix-server-client": "^0.19.5",
-    "@jay-framework/wix-stores": "^0.19.5"
+    "@jay-framework/fullstack-component": "^0.19.6",
+    "@jay-framework/jay-stack-cli": "^0.19.6",
+    "@jay-framework/wix-cart": "^0.19.6",
+    "@jay-framework/wix-deploy": "^0.19.6",
+    "@jay-framework/wix-server-client": "^0.19.6",
+    "@jay-framework/wix-stores": "^0.19.6"
   },
   "devDependencies": {
-    "@jay-framework/aiditor": "^0.19.5",
-    "@jay-framework/jay-cli": "^0.19.5",
-    "@jay-framework/wix-media": "^0.19.5",
-    "@jay-framework/a11y-validator": "^0.19.5",
-    "@jay-framework/seo-validator": "^0.19.5",
+    "@jay-framework/aiditor": "^0.19.6",
+    "@jay-framework/jay-cli": "^0.19.6",
+    "@jay-framework/wix-media": "^0.19.6",
+    "@jay-framework/a11y-validator": "^0.19.6",
+    "@jay-framework/seo-validator": "^0.19.6",
     "@types/node": "^22.10.0",
     "rimraf": "^6.0.0",
     "typescript": "~5.7.2",
