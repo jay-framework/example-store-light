@@ -13,9 +13,11 @@ A minimal e-commerce storefront built with [Jay Framework](https://github.com/ja
 ## Prerequisites
 
 - Node.js >= 20
-- A Wix site with Wix Stores installed
+- A Wix account (a new site is created automatically in step 1)
 
 ## 1. Setup
+
+Run these commands in order:
 
 ```bash
 npm install
@@ -25,25 +27,63 @@ npm run setup
 
 Here's what each command does:
 
-1. **`npm create @wix/new@latest init`** — Creates a new headless Wix site, generating a `wix.config.json` with:
+1. **`npm install`** — Installs project dependencies.
+
+2. **`npm create @wix/new@latest init`** — Creates a new headless Wix site and generates `wix.config.json` with:
    - `siteId` — the Wix site identifier (also known as metasite ID in Wix)
    - `appId` — a client ID for headless API access
 
    This command is only required for Wix-hosted sites.
 
-2. **`npm run setup`** — Creates `config/.wix.yaml`. If a valid `wix.config.json` exists, it reads the `siteId` and `clientId` from it.
+3. **`npm run setup`** — Creates `config/.wix.yaml` and validates plugin configuration. On the **first run**, this will report errors — **that is expected**. It creates a config template that you fill in during the steps below.
 
-   > **Note:** `appId` (in `wix.config.json`) and `clientId` (in `config/.wix.yaml`) are the same value. Both can also be generated manually from **Wix Dashboard → Site Settings → Headless Settings → Headless Client**.
+   ![First npm run setup output — errors are expected](docs/setup-first-run.png)
 
-3. **Generate an API key** — Go to **Wix Dashboard → Account Settings → API Keys**, create a new key, and paste it into `config/.wix.yaml` under `apiKeyStrategy.apiKey`.
+### Configure Wix credentials
 
-4. **Install Wix Stores** — In the **Wix Business Manager → Apps → Manage Apps → App Market**, find **Wix Stores** and add it to the site.
+Complete these steps, then run `npm run setup` again at the end to validate everything.
 
-5. **Create the `jay-backend-files` collection** — In the **Wix Business Manager** of the same site (or the site referenced in `config/.wix.yaml`, if those are different), go to **CMS** and create a new collection named **`jay-backend-files`**. No specific schema is required. This collection stores pre-compiled page data for Wix BaaS deployment.
+> **Note:** `appId` (in `wix.config.json`) and `clientId` (in `config/.wix.yaml`) are the same value. Both can also be generated manually from **Wix Dashboard → Site Settings → Headless Settings → Headless Client**.
 
-6. **Run `npm run setup` again** to validate that all credentials are configured correctly.
+#### a. Find your new Wix site
 
-When everything is set up, the output should look like:
+`npm create @wix/new@latest init` creates a new site on your Wix account. Open [manage.wix.com/studio/sites](https://manage.wix.com/studio/sites) to find it. All steps below apply to **this site**.
+
+#### b. Generate an API key
+
+1. Go to [manage.wix.com/account/api-keys](https://manage.wix.com/account/api-keys).
+2. Create a new API key.
+3. Paste it into `config/.wix.yaml` under `apiKeyStrategy.apiKey`.
+
+   > **Note:** Wix may not let you scope an API key to a single headless site. If site-specific permissions are unavailable, grant access to **all sites** on your account.
+
+#### c. Install Wix Stores
+
+In your site's **Business Manager → Apps → Manage Apps → App Market**, find **Wix Stores** and add it.
+
+#### d. Create the `jay-backend-files` collection
+
+In the same site's **CMS**, create a new collection for Wix BaaS deployment. No specific schema is required — only the name matters.
+
+1. Choose **Content collection** (not Catalog collection):
+
+   ![Choose Content collection](docs/setup-collection-type.png)
+
+2. Choose **Start from scratch**:
+
+   ![Start from scratch](docs/setup-collection-start.png)
+
+3. Set the collection name to **`jay-backend-files`** (the collection ID will auto-fill to match). Keep **Multiple item collection** (the default), then click **Create**:
+
+   ![Name the collection jay-backend-files](docs/setup-collection-name.png)
+
+#### e. Validate setup
+
+```bash
+npm run setup
+```
+
+When everything is configured, the output should look like:
 
 ```
 📦 wix-server-client
@@ -128,31 +168,50 @@ npm run build:production
 npm run deploy
 ```
 
-This bundles a 2.5 MB `entry.mjs`, uploads page data to the `jay-backend-files` collection, and deploys the server + frontend to Wix BaaS + CDN.
+This bundles a ~2.5 MB `entry.mjs`, uploads page data to the `jay-backend-files` collection, and deploys the server + frontend to Wix BaaS + CDN.
+
+When deployment succeeds, the **live site URL** is printed at the end of the output:
+
+```
+[deploy] Done in 45.2s (bundle 12.1s + deploy 33.1s)
+[deploy] Version: 2 | Entry: 2.5 MB | Backend files: 42
+[deploy] URL: https://your-site-name.wix-site-host.com
+```
+
+Look for the line starting with `[deploy] URL:`. You can also find the site in [manage.wix.com/studio/sites](https://manage.wix.com/studio/sites).
 
 ## 6. Deploy to Self-Hosted Server
 
-```bash
-# Build
-npm run build:production
+### Option A — Built-in production server (recommended)
 
-# Serve with the built-in production server
+No manual file copying is needed. The server reads directly from the build output on disk:
+
+```bash
+npm run build:production
 npm run serve
 ```
 
-Or use the fetch handler directly in any Node.js server:
+The site is available at `http://localhost:3000` (or the next available port, printed in the terminal).
+
+To run on a remote server, copy the project to that machine (including the `build/` directory produced by `build:production`), install dependencies with `npm install`, and run `npm run serve`.
+
+### Option B — Integrate with your own HTTP server
+
+If you already have a Node.js server, use the fetch handler and point it at the build output directories. After `npm run build:production`, check the `build/` folder for the version directory (for example `build/v1/`):
 
 ```typescript
 import { createJayFetchHandler } from '@jay-framework/jay-fetch-handler';
 
 const handler = createJayFetchHandler({
-  backendDir: './build/v0.18.0/backend',
+  backendDir: './build/v1/backend',
   staticBaseUrl: '/',
-  frontendDir: './build/v0.18.0/frontend',
+  frontendDir: './build/v1/frontend',
 });
 
 // Use with any HTTP server framework
 ```
+
+Nothing needs to be copied into your server code — only reference the paths to `backend/` and `frontend/` inside the build output.
 
 ## Project Structure
 
@@ -171,5 +230,4 @@ src/
     └── atelier-theme.css                # Theme styles
 ```
 
-Pages use `.jay-html` templates with headless component bindings — no JavaScript needed for data fetching, SSR, or client hydration. The framework handles all of that through contracts and plugins.
-
+Pages use `.jay-html` templates with headless component bindings — no JavaScript needed for data fetching, server-side rendering, or client hydration. The framework handles all of that through contracts and plugins.
