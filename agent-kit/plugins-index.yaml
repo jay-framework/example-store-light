@@ -122,6 +122,9 @@ plugins:
         description: Submit a visual annotation task to the AI agent (Agent SDK) with
           file uploads
         path: ./node_modules/@jay-framework/aiditor/dist/actions/submit-task.jay-action
+      - name: cancelAgentTaskAction
+        description: Cancel the in-flight AI agent task for a page route
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/cancel-agent-task.jay-action
       - name: readFileAction
         description: Read a file from the project filesystem (text or image as base64)
         path: ./node_modules/@jay-framework/aiditor/dist/actions/read-file.jay-action
@@ -188,6 +191,24 @@ plugins:
       - name: resolveAddMenuContractParamsAction
         description: Resolve URL params from a materialized contract for Add Menu Q8 helpers
         path: ./node_modules/@jay-framework/aiditor/dist/actions/resolve-add-menu-contract-params.jay-action
+      - name: getPageMetaAction
+        description: Load page meta (route migration) for an agent context key
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/get-page-meta.jay-action
+      - name: savePageMetaAction
+        description: Save page meta (route migration) for an agent context key
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/save-page-meta.jay-action
+      - name: getContractInspectorTagsAction
+        description: Resolve contract tags for Page Info component explorer
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/get-contract-inspector-tags.jay-action
+      - name: getPageAssetsAction
+        description: Load page assets registry for an agent context key
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/get-page-assets.jay-action
+      - name: savePageAssetsAction
+        description: Persist page assets registry for an agent context key
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/save-page-assets.jay-action
+      - name: syncDetectedPageAssetsAction
+        description: Merge auto-detected page components into page assets registry
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/sync-detected-page-assets.jay-action
       - name: writePluginSourceAction
         description: Add or update a local plugin source in .aiditor/plugin-sources.yaml
         path: ./node_modules/@jay-framework/aiditor/dist/actions/write-plugin-source.jay-action
