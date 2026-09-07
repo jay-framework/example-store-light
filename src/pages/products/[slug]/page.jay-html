@@ -483,7 +483,12 @@
       <section class="gallery-section">
         <div class="gallery-container">
           <div class="main-image-wrapper">
-            <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_900,h_675/file.webp" alt="{productPage.productName}" loading="eager" width="900" height="675" fetchpriority="high" />
+            <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_900,h_675/file.webp"
+                 srcset="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_400%2Ch_300/file.webp 400w,
+                         {productPage.mediaGallery.selectedMedia.url}/v1/fill/w_600%2Ch_450/file.webp 600w,
+                         {productPage.mediaGallery.selectedMedia.url}/v1/fill/w_900%2Ch_675/file.webp 900w"
+                 sizes="(max-width: 768px) calc(100vw - 32px), 900px"
+                 alt="{productPage.productName}" loading="eager" width="900" height="675" fetchpriority="high" />
           </div>
           <div class="thumbnails-row">
             <div class="thumb-item {selected == selected ? selected}"
@@ -542,8 +547,8 @@
             <div class="info-card-title">Customize</div>
             <div class="options-grid">
               <div class="option-row" forEach="productPage.options" trackBy="_id">
-                <div class="option-label">{name}</div>
-                
+                <div class="option-label" aria-hidden="true">{name}</div>
+
                 <!-- Text Choices as Dropdown -->
                 <select class="select"
                         if="optionRenderType == TEXT_CHOICES"
@@ -572,8 +577,8 @@
             <div class="info-card-title">Personalize</div>
             <div class="options-grid">
               <div class="option-row" forEach="productPage.modifiers" trackBy="_id">
-                <div class="option-label">{name}</div>
-                
+                <div class="option-label" aria-hidden="true">{name}</div>
+
                 <select class="select"
                         if="modifierType == TEXT_CHOICES"
                         ref="productPage.modifiers.textModifier"
@@ -640,7 +645,12 @@
           <div class="related-grid">
             <article class="product-card {isAddingToCart ? is-adding}" forEach="products" trackBy="_id">
               <a href="{productUrl}" class="product-card-image">
-                <img src="{thumbnail.url}/v1/fill/w_600,h_600/file.webp" alt="{thumbnail.altText}" loading="lazy" width="600" height="600" />
+                <img src="{thumbnail.url}/v1/fill/w_600,h_600/file.webp"
+                     srcset="{thumbnail.url}/v1/fill/w_300%2Ch_300/file.webp 300w,
+                             {thumbnail.url}/v1/fill/w_400%2Ch_400/file.webp 400w,
+                             {thumbnail.url}/v1/fill/w_600%2Ch_600/file.webp 600w"
+                     sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                     alt="{thumbnail.altText}" loading="lazy" width="600" height="600" />
                 <span class="badge badge-accent ribbon" if="hasRibbon">{ribbon.name}</span>
               </a>
               <div class="product-card-content">

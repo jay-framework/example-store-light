@@ -4,15 +4,14 @@
             plugin="@jay-framework/wix-stores"
             contract="product-page"
             key="productPage"
-    ></script>
+    >
+      slug: ceramic-flower-vase
+    </script>
     <script type="application/jay-headless"
             plugin="@jay-framework/wix-cart"
             contract="cart-indicator"
             key="cartIndicator"
     ></script>
-      <script type="application/jay-params">
-          slug: ceramic-flower-vase
-      </script>
     <title>Ceramic Flower Vase — Atelier</title>
     <meta name="description" content="Explore our handcrafted ceramic flower vase, designed for beauty and everyday elegance.">
     <script type="application/jay-data">
@@ -403,7 +402,12 @@
 
       <!-- Hero - First Image Full Viewport -->
       <section class="hero-image-section">
-        <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920,h_1080/file.webp" alt="{productPage.productName}" loading="eager" width="1920" height="1080" fetchpriority="high" />
+        <img src="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920,h_1080/file.webp"
+             srcset="{productPage.mediaGallery.selectedMedia.url}/v1/fill/w_600%2Ch_338/file.webp 600w,
+                     {productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1200%2Ch_675/file.webp 1200w,
+                     {productPage.mediaGallery.selectedMedia.url}/v1/fill/w_1920%2Ch_1080/file.webp 1920w"
+             sizes="100vw"
+             alt="{productPage.productName}" loading="eager" width="1920" height="1080" fetchpriority="high" />
         
         <div class="hero-overlay">
           <div class="hero-badges">
@@ -445,8 +449,8 @@
         <!-- Options -->
         <div class="options-section" if="productPage.options">
           <div class="option-block" forEach="productPage.options" trackBy="_id">
-            <div class="option-title">{name}</div>
-            
+            <div class="option-title" aria-hidden="true">{name}</div>
+
             <select class="select"
                     if="optionRenderType == TEXT_CHOICES"
                     ref="productPage.options.textChoice"
@@ -470,8 +474,8 @@
         <!-- Modifiers -->
         <div class="options-section" if="productPage.modifiers">
           <div class="option-block" forEach="productPage.modifiers" trackBy="_id">
-            <div class="option-title">{name}</div>
-            
+            <div class="option-title" aria-hidden="true">{name}</div>
+
             <select class="select"
                     if="modifierType == TEXT_CHOICES"
                     ref="productPage.modifiers.textModifier"
@@ -517,7 +521,12 @@
                forEach="productPage.mediaGallery.availableMedia" 
                trackBy="mediaId"
                ref="productPage.mediaGallery.availableMedia.selected">
-            <img src="{media.url}/v1/fill/w_1000,h_1000/file.webp" alt="Product image" loading="lazy" width="1000" height="1000" />
+            <img src="{media.url}/v1/fill/w_1000,h_1000/file.webp"
+                 srcset="{media.url}/v1/fill/w_400%2Ch_400/file.webp 400w,
+                         {media.url}/v1/fill/w_700%2Ch_700/file.webp 700w,
+                         {media.url}/v1/fill/w_1000%2Ch_1000/file.webp 1000w"
+                 sizes="(max-width: 768px) 100vw, 1000px"
+                 alt="Product image" loading="lazy" width="1000" height="1000" />
           </div>
         </div>
       </section>
