@@ -252,3 +252,4 @@ plugins:
   - name: seo-validator
     path: ./node_modules/@jay-framework/seo-validator
     contracts: []
+designSystemIndex: ./design-system-index.yaml
