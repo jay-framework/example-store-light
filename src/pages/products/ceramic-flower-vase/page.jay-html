@@ -384,7 +384,7 @@
     }
 
     @scope (.siteHeader) {
-      :scope {
+      .site-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -496,7 +496,7 @@
       }
 
       @media (max-width: 600px) {
-        :scope {
+        .site-header {
           padding: 16px var(--page-padding);
         }
 
@@ -510,8 +510,7 @@
 
 <body>
   <main class="vase-page"><jay:site-header ref="siteHeader">
-      <header class="site-header siteHeader"><a href="/products"
-          class="site-logo">Atelier<span>.</span></a>
+      <header class="site-header"><a href="/products" class="site-logo">Atelier<span>.</span></a>
         <nav class="site-nav"><a href="/products">Collection</a><jay:cart-indicator><a href="/cart"
               class="cart-indicator {hasItems ? has-items} {isLoading ? is-loading} {justAdded ? just-added}"
               ref="cartLink"><span class="cart-indicator-icon">🛒</span><span
