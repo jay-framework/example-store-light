@@ -83,8 +83,18 @@ Create a collection named `jay-backend-files` in the Wix dashboard (on the busin
 | `content` | Text | File content |
 | `fileType` | Text | File extension |
 | `sizeBytes` | Number | Content byte length |
-| `category` | Text | `eager` or `lazy` |
+| `category` | Text | `eager`, `lazy` or `instance` |
 | `version` | Text | Build version (semver) |
+| `route` | Text | Instance items only — the route pattern, e.g. `/products/[slug]` |
+| `params` | Object | Instance items only — the route params of the instance |
+
+`instance` items are the slow-render data (`*.cache.json`) of one page instance. The item **is** the instance index: the sitemap / `/_wix/pages.json` list the `instance` items of each route (cached in memory for 10 minutes), and the server creates one when it renders a new item on first request. The runtime therefore needs write access (insert / update / remove) to the collection, not only read.
+
+### Fresh data and new items
+
+- Slow render may return `ttl` / `grace` (seconds). Once an instance is older than its `ttl`, the server serves the stored data right away (`Cache-Control: no-store`, `jay-freshness: stale, <age>ms`) and refreshes the item in the collection in the background; once older than `grace` it waits up to `JAY_STALE_WAIT_MS` (default 2000) for the refresh.
+- A URL with no instance item (for example a product published after the last deploy) is rendered on first request and stored. A slow render answering 404 is remembered for 10 minutes and served as 404; if it cannot render now (all slow-render slots busy, error) the server answers `503` with `Retry-After`.
+- `JAY_SLOW_RENDER_CONCURRENCY` (default 5) caps concurrent slow renders per server instance; there is no queue.
 
 ### 7. Validate setup
 
@@ -159,6 +169,7 @@ See **Troubleshooting → Local `serve.mjs` vs production** below.
 │ Bundled by esbuild:                                     │
 │  ├── Framework serve code                               │
 │  ├── Plugin code (wix-stores, wix-cart, etc.)           │
+│  ├── Plugin actions + project actions (registered)      │
 │  ├── Server element modules (SSR render functions)      │
 │  ├── ssr-runtime (inlined)                              │
 │  ├── Wix SDK (@wix/sdk, @wix/stores, etc.)             │
@@ -188,6 +199,23 @@ See **Troubleshooting → Local `serve.mjs` vs production** below.
 │  └── pages/**/*.css (route stylesheets)                 │
 └─────────────────────────────────────────────────────────┘
 ```
+
+### Actions on BaaS (plugin and project)
+
+Both kinds of server actions are pre-imported into `entry.mjs` and registered at
+init via `registerActionsFromModules`, so `POST /_jay/actions/<name>` resolves
+without any filesystem lookup:
+
+- **Plugin actions** — from `@jay-framework/wix-*` packages (listed in the route
+  manifest with `isPlugin: true`).
+- **Project actions** — your own `src/actions/*.actions.ts`, compiled to
+  `server/actions/*.js` and listed with `isPlugin: false` + a `serverModule`.
+  `build-entry` bundles each project action module by absolute path and registers
+  it alongside the plugin actions.
+
+`build-entry` fails the build if the manifest lists a project action without a
+`serverModule` (it cannot be bundled) — a published site must never answer 404 for
+an action it lists.
 
 ## Updating After Data Changes
 
@@ -253,6 +281,23 @@ For other runtime 500 causes (e.g. stale `page-parts.json`, fast-phase ViewState
 **Cause:** `@jay-framework/wix-media`, `seo-validator`, or `a11y-validator` in `dependencies` get bundled into `entry.mjs`. They are build-time only.
 
 **Fix:** Move to `devDependencies` in `package.json`, then rebuild and redeploy.
+
+---
+
+### Action returns 404 ACTION_NOT_FOUND on BaaS but works on `serve`
+
+**Symptom:** `POST /_jay/actions/<name>` for one of your own `src/actions/*`
+actions answers `404 {"code":"ACTION_NOT_FOUND"}` on the published site, while the
+dev server and `jay-stack serve` handle it fine.
+
+**Cause:** the project action module was not bundled into `entry.mjs`. Self-hosted
+`serve` registers every manifest action from disk; BaaS registers pre-imported
+modules, so a project action missing from the generated registration 404s.
+
+**Fix:** rebuild the entry (`jay-stack-cli run wix-deploy/build-entry`) with a
+current `wix-deploy` — it now bundles and registers project actions, and fails the
+build if a listed project action has no `serverModule`. Confirm locally: an `OPTIONS`
+to `/_jay/actions/<name>` returns **405** (registered) rather than **404**.
 
 ---
 

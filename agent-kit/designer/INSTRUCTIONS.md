@@ -46,6 +46,7 @@ There is no standalone "interactive" phase. Any tag with `type: interactive` (re
 | [design-system-guide.md](design-system-guide.md)           | Design-system elements — **create** (author template + contract, `jay-content` slots) and **use** (flatten with `template=`, drift, `override` facets, `sync`) |
 | [jay-html-styling.md](jay-html-styling.md)                 | Styling: inline, external, dynamic style bindings, class bindings                                                                                              |
 | [routing.md](routing.md)                                   | Directory-based routing: page structure, dynamic routes, route priority                                                                                        |
+| [error-pages-guide.md](error-pages-guide.md)               | Error pages: reserved `404`/`5xx` status folders, the `error` headless, bindings, exact→family resolution                                                      |
 | [navigation-patterns.md](navigation-patterns.md)           | Active menu/sidebar patterns using `jay.url.path`, `===`, and `^=` operators                                                                                   |
 | [contracts-and-plugins.md](contracts-and-plugins.md)       | Reading contracts, plugin.yaml, .jay-action files, and the materialized indexes                                                                                |
 | [Contract Authoring Guide](../contracts/GUIDE.md)          | Writing contracts: syntax, page/component/linked contracts, examples                                                                                           |
@@ -142,4 +143,7 @@ jay-stack dev
 | File | Plugin | Description |
 | --- | --- | --- |
 | [related-products.md](related-products.md) | wix-stores | Show a row of product cards at the bottom of a product detail page — same-category siblings, excluding the product being viewed. |
+| [store-configuration.md](store-configuration.md) | wix-stores | Project config for **Catalog V3** stores (`@jay-framework/wix-stores`). For Catalog V1, use `config/.wix-stores-v1.yaml` with `@jay-framework/wix-stores-v1`. |
+| [wix-stores-dashboard-content.md](wix-stores-dashboard-content.md) | wix-stores | **Plugin** `@jay-framework/wix-stores` · **contracts** `product-search`, `category-products`, `product-spotlight`, `category-list`, and the dynamic `product-page`. |
 | [wix-media.md](wix-media.md) | wix-media | How to use images, video, documents, and audio from Wix Media Manager in jay-html templates. |
+| [a11y-patterns.md](a11y-patterns.md) | a11y-validator | Common accessibility patterns and how to fix validation errors. Each section corresponds to an a11y-validator rule. |

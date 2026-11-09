@@ -27,6 +27,26 @@ So a warning about an `<img>` might come from a full-stack component's template,
 - **Errors** block the build. They must be fixed — there is no way to suppress them.
 - **Warnings** must be either fixed or explicitly suppressed. Do not ignore warnings — each one has a clear resolution path (add the missing attribute, or suppress via `<script type="application/jay-validations">`).
 
+**Broken internal links are errors** (DL#210). `validate` resolves every `<a href>` against the project's
+**static routes + public assets**. An href that resolves to nothing is an error: a placeholder (`href="#"` or
+empty), a typo, or a link to a page/asset that does not exist. Links that match a **dynamic** route pattern
+(e.g. `/blog/[slug]`) are **not** checked here — the concrete slug list isn't known at validate time — so they
+never false-error. External URLs, `mailto:`/`tel:`, and `{binding}` hrefs are skipped.
+Fix the path, use `<button>` for JS-driven anchors, or suppress per-page (see the `jay-stack` table below).
+
+Link checking has these additional severities and markers (DL#210 v2):
+
+- **`#fragment` links are validated** — `<a href="#team">` requires an element with `id="team"` on the page;
+  `<a href="/about#team">` requires `id="team"` on the `/about` page. A missing anchor is an **error** (not
+  suppressible). `#` alone is a degenerate placeholder (error); `#top` and empty fragments are always allowed.
+- **Self-links are a warning** — an `<a href="/here">` on the `/here` page goes nowhere. It's a **warning**
+  (doesn't block the build). When a self-link is intentional, suppress it **on that one anchor** with the
+  `jay-allow-self-link` attribute: `<a href="/here" jay-allow-self-link>`.
+- **TODO links** — mark a link you haven't wired yet with the `todo:` scheme:
+  `<a href="todo:/pricing">Pricing</a>` or `<a href="todo: write the pricing page">Pricing</a>`. It emits a
+  **warning on every validate** (the text after `todo:` is echoed as a reminder) and **cannot be suppressed** —
+  it's a deliberate, recurring nudge until you replace it with the real destination.
+
 One design-system rule is a **hard error**, not a warning: `REGION-CSS-NO-REF` (DL#209) — a `<jay:X>` region
 whose `template=` ships CSS but which has no `ref=`. Without a `ref` the CSS has no scope anchor, so `sync`
 silently drops it; the fix is to add a `ref` (see `design-system-guide.md` → _The shape of a region's CSS_).
@@ -120,12 +140,15 @@ viewport-height containers — see `jay-html-styling.md`), `allow-custom-breakpo
 The core `jay-stack validate` emits four warnings that nudge you to reuse UI through design-system elements
 (see `design-system-guide.md`). Suppress the legitimate case:
 
-| Rule                          | How to suppress                                                                                                                 |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `REGION-NOT-LINKED`           | `jay-validations="REGION-NOT-LINKED"` on the `application/jay-headless` import, or `jay-stack: allow-inline-region: [Contract]` |
-| `REGION-OVERRIDE-NON-CONTENT` | `jay-validations="REGION-OVERRIDE-NON-CONTENT"` on the import                                                                   |
-| `COMPONENT-NO-TEMPLATE`       | `jay-stack: allow-no-template: [Contract]`                                                                                      |
-| `NO-DESIGN-SYSTEM`            | `jay-stack: allow-no-design-system: true`                                                                                       |
+| Rule                                               | How to suppress                                                                                                                           |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `REGION-NOT-LINKED`                                | `jay-validations="REGION-NOT-LINKED"` on the `application/jay-headless` import, or `jay-stack: allow-inline-region: [Contract]`           |
+| `REGION-OVERRIDE-NON-CONTENT`                      | `jay-validations="REGION-OVERRIDE-NON-CONTENT"` on the import                                                                             |
+| `COMPONENT-NO-TEMPLATE`                            | `jay-stack: allow-no-template: [Contract]`                                                                                                |
+| `NO-DESIGN-SYSTEM`                                 | `jay-stack: allow-no-design-system: true`                                                                                                 |
+| Broken / degenerate internal link (DL#210)         | `jay-stack: allow-broken-links: true` (per-page — suppresses broken + `#`/empty link errors; does **not** affect TODO or fragment checks) |
+| Self-link warning (DL#210 v2)                      | `jay-allow-self-link` attribute on the specific `<a>` (per-anchor, not per-page)                                                          |
+| Missing `#fragment` anchor / TODO link (DL#210 v2) | Not suppressible — fix the anchor id, or replace the `todo:` href                                                                         |
 
 ```html
 <script type="application/jay-validations">
@@ -167,12 +190,29 @@ By default the scorecard prints **one-line totals** for the whole project:
 Run with `-v` / `--verbose` to expand the **per-page** breakdown (coverage per file, which tags are unused,
 per-template reuse counts, and `⚠ low` flags on pages under 50% coverage).
 
+## Two validation tiers
+
+Validation comes in two tiers. This guide covers **Tier 1**, the always-on gate.
+
+**Tier 1 — always on (`jay-stack validate`)** is the fast, template-only gate. It reads your `.jay-html` files and
+route scan only — **no build needed** — so it's cheap enough for the hot agent loop and runs on every `validate`.
+Everything described in this guide is Tier 1. For links, Tier 1 (DL#210) resolves every hand-authored `<a href>`
+against the project's static routes + public assets and **errors** on broken internal links (typos, missing
+pages), degenerate `#` / empty placeholder links, and missing `#fragment` anchors; **warns** on self-links and
+`todo:` links. Links matching a **dynamic** route pattern (`/design-log/[...slug]`) are deferred — the concrete
+slug set isn't known without a build.
+
+**Tier 2 — opt-in, against a build (`jay-stack validate --tier-2`)** adds deeper checks that need a build:
+dynamic-slug links, broken links in rendered content, and per-instance meta/SEO. It's documented separately to
+keep this guide focused — see **`validation-tier-2-guide.md`**. Run it pre-deploy / in CI.
+
 ## Running Validation
 
 ```bash
-jay-stack validate              # validate all pages (+ one-line scorecard totals)
-jay-stack validate -v           # add per-page tag coverage + scorecard detail
-jay-stack validate --strict     # treat warnings as errors
+jay-stack validate                     # Tier 1: all pages (+ one-line scorecard totals)
+jay-stack validate -v                  # add per-page tag coverage + scorecard detail
+jay-stack validate --strict            # treat warnings as errors
+jay-stack validate --tier-2            # also run Tier 2 — see validation-tier-2-guide.md
 ```
 
 Validation runs automatically during `jay-stack build`. Warnings don't block the build; errors do (with `--strict`).

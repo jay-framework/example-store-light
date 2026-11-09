@@ -34,6 +34,17 @@ plugins:
   - name: wix-server-client
     path: ./node_modules/@jay-framework/wix-server-client
     contracts: []
+    actions:
+      - name: getDashboardUrl
+        description: Dev-only. Build the Wix dashboard URL for a dashboard path (site id
+          read server-side), e.g. path
+          "wix-stores/products/product/<productId>". Use it to send the site
+          owner to dashboard-managed content instead of editing code or data.
+        path: ./node_modules/@jay-framework/wix-server-client/dist/actions/get-dashboard-url.jay-action
+      - name: syncSession
+        description: Mirror the browser's Wix OAuth tokens into the httpOnly wix_session
+          cookie after verifying them with token-info, or clear it.
+        path: ./node_modules/@jay-framework/wix-server-client/dist/actions/sync-session.jay-action
     services:
       - name: wix-client
         marker: WIX_CLIENT_SERVICE
@@ -269,7 +280,9 @@ plugins:
           rebuild
     commands:
       - name: upload-public
+        description: Upload local public/ files to Wix Media Manager
       - name: rebuild-index
+        description: Rebuild agent-kit media index from current Wix Media Manager state
   - name: a11y-validator
     path: ./node_modules/@jay-framework/a11y-validator
     contracts: []
