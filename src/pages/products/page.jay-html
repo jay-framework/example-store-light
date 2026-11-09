@@ -487,8 +487,8 @@
 
 <body>
   <main class="collection-page"><jay:site-header ref="siteHeader">
-      <header class="site-header"><a href="/products" class="site-logo">Atelier<span>.</span></a>
-        <nav class="site-nav"><a href="/products">Collection</a><jay:cart-indicator><a href="/cart"
+      <header class="site-header"><a href="#top" class="site-logo" override="href">Atelier<span>.</span></a>
+        <nav class="site-nav"><a href="#top" override="href">Collection</a><jay:cart-indicator><a href="/cart"
               class="cart-indicator {hasItems ? has-items} {isLoading ? is-loading} {justAdded ? just-added}"
               ref="cartLink"><span class="cart-indicator-icon">🛒</span><span
                 class="cart-indicator-count"

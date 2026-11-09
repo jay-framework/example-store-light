@@ -1,0 +1,17 @@
+{
+  "entries": [
+    {
+      "identifier": "urn:air:atelier:catalog:products",
+      "displayName": "Atelier Product Catalog",
+      "type": "application/ld+json",
+      "url": "https://atelier.example.com/sitemap.xml",
+      "description": "Browse and search the Atelier catalog of home goods and ceramics.",
+      "representativeQueries": [
+        "ceramic flower vase",
+        "modern home decor",
+        "handmade tableware"
+      ],
+      "tags": ["shop", "catalog", "home-goods"]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="application/jay-headless" plugin="jay-stack" contract="error" key="error"></script>
+  <script type="application/jay-data">
+data:
+  </script>
+  <title>{error.title} — Atelier</title>
+  <meta name="description" content="{error.message}">
+  <link rel="stylesheet" href="../../styles/atelier-theme.css">
+  <style>
+    .error-page {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+      padding: 80px var(--page-padding);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .error-page .error-status {
+      font-size: 72px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .error-page .error-title {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .error-page .error-message {
+      max-width: 480px;
+      color: var(--text-secondary);
+    }
+
+    .error-page .error-home-link {
+      margin-top: 8px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="error-page">
+    <p class="error-status">{error.status}</p>
+    <h1 class="error-title">{error.title}</h1>
+    <p class="error-message">{error.message}</p>
+    <a href="/products" class="error-home-link">Back to the collection</a>
+  </main>
+</body>
+
+</html>

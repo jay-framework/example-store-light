@@ -1,2 +1,5 @@
 site:
   baseUrl: https://atelier.example.com
+  name: Atelier
+  description: Modern, considered home goods and ceramics — curated pieces for everyday living.
+  logo: /logo.png
