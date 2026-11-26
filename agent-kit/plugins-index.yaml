@@ -42,8 +42,8 @@ plugins:
           owner to dashboard-managed content instead of editing code or data.
         path: ./node_modules/@jay-framework/wix-server-client/dist/actions/get-dashboard-url.jay-action
       - name: syncSession
-        description: Mirror the browser's Wix OAuth tokens into the httpOnly wix_session
-          cookie after verifying them with token-info, or clear it.
+        description: Mirror the browser's Wix access token into the httpOnly wix_session
+          cookie after verifying it with token-info, or clear it.
         path: ./node_modules/@jay-framework/wix-server-client/dist/actions/sync-session.jay-action
     services:
       - name: wix-client
@@ -212,6 +212,27 @@ plugins:
       - name: rerunPluginSetupAction
         description: Re-run jay-stack setup for a plugin
         path: ./node_modules/@jay-framework/aiditor/dist/actions/rerun-plugin-setup.jay-action
+      - name: getShareStatusAction
+        description: Local (or fetched) status of shared plugins (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/get-share-status.jay-action
+      - name: runShareLinkAction
+        description: Import a shared plugin from git via shareLink (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/run-share-link.jay-action
+      - name: checkShareIncomingAction
+        description: Dry-run sharePull to list incoming files (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/check-share-incoming.jay-action
+      - name: runSharePullAction
+        description: Update a shared plugin via sharePull (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/run-share-pull.jay-action
+      - name: runSharePushAction
+        description: Publish committed changes via sharePush (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/run-share-push.jay-action
+      - name: runSharePublishAction
+        description: Share the site design system via sharePublish (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/run-share-publish.jay-action
+      - name: runShareRestoreAction
+        description: Download shared plugins via shareRestore (DL#68)
+        path: ./node_modules/@jay-framework/aiditor/dist/actions/run-share-restore.jay-action
       - name: syncAddPagePluginManifestAction
         description: Sync selected plugins to content.md managed section and request.json
         path: ./node_modules/@jay-framework/aiditor/dist/actions/sync-add-page-plugin-manifest.jay-action
